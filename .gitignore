@@ -9,6 +9,7 @@ obj/
 
 # Environment & secrets
 .env*
+!.env.example
 appsettings.*.local.json
 
 # IDE & editor
@@ -22,6 +23,7 @@ appsettings.*.local.json
 
 # Logs
 *.log
+logs/
 
 # OS files
 .DS_Store
