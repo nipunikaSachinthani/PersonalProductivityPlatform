@@ -22,3 +22,14 @@ Professional repo skeleton, tooling, and "hello world" end-to-end. Establishes t
 - One API call from React succeeds (health check)
 - All linting and formatting gates pass
 - Integration test passes (`dotnet test`)
+
+
+---
+
+## Git Workflow
+
+Every task in this phase MUST follow `GIT_WORKFLOW.md` for branch naming, commit format, and PR standards. Before starting any task:
+- Read `GIT_WORKFLOW.md` in full
+- Create branches per §3 (Branch Naming Conventions)
+- Write commits per §5 (Conventional Commits)
+- Open PRs per §6 (Pull Request Standards)

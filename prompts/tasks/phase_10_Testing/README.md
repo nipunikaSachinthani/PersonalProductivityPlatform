@@ -19,3 +19,14 @@ Backfill comprehensive test suite across the entire system. Unit tests for all v
 - Coverage configured with 70% threshold on Application layer
 - README updated with test run instructions
 - All existing tests still passing — zero regressions
+
+
+---
+
+## Git Workflow
+
+Every task in this phase MUST follow `GIT_WORKFLOW.md` for branch naming, commit format, and PR standards. Before starting any task:
+- Read `GIT_WORKFLOW.md` in full
+- Create branches per §3 (Branch Naming Conventions)
+- Write commits per §5 (Conventional Commits)
+- Open PRs per §6 (Pull Request Standards)
