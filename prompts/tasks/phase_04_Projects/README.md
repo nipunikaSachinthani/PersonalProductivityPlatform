@@ -23,3 +23,14 @@ Project-based task organization with membership roles (Owner/Member/Viewer), res
 - Task assignment to projects with membership-based access
 - Project sidebar and detail page with role-aware UI
 - 3 integration tests passing (authorization, assignment, membership)
+
+
+---
+
+## Git Workflow
+
+Every task in this phase MUST follow `GIT_WORKFLOW.md` for branch naming, commit format, and PR standards. Before starting any task:
+- Read `GIT_WORKFLOW.md` in full
+- Create branches per §3 (Branch Naming Conventions)
+- Write commits per §5 (Conventional Commits)
+- Open PRs per §6 (Pull Request Standards)

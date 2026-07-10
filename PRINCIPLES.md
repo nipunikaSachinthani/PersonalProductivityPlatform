@@ -56,6 +56,29 @@ When evaluating any change, run it through these in order. Stop at the first fai
 - **Production secrets in plain `appsettings.json`** — use User Secrets (development) and Azure Key Vault / GitHub Secrets (production).
 - **One-off scripts that mutate production data** — database changes go through EF Core migrations checked into source control.
 
+## Git Workflow Reference
+
+Every Git operation in this repository MUST follow the formal Git Workflow Standard.
+Read `GIT_WORKFLOW.md` before creating any branch, writing any commit message, or
+opening any pull request.
+
+**Key rules for daily work:**
+
+| Rule | Standard |
+|---|---|
+| Branch naming | `<type>/<short-description>-<ref-id>` — e.g., `feature/create-task-PPP-031` |
+| Commit format | Conventional Commits: `type(scope): description` |
+| PR size limit | ≤ 800 LOC, ≤ 25 files |
+| Merge method | Squash-merge for features; merge commit for releases/hotfixes |
+| Branch lifespan | ≤ 3 days (features), ≤ 24 hours (hotfixes) |
+| Stay up-to-date | Rebase, never merge `main` into feature branches |
+
+All task prompts in `prompts/tasks/` use the branch and commit naming defined
+in `GIT_WORKFLOW.md`. If a task prompt says `feature/PPP-NNN-slug`, the slug
+MUST follow the naming conventions in `GIT_WORKFLOW.md §3`.
+
+---
+
 ## Communication style (apply to every PR description, decision record, escalation)
 
 - State the **why** before the **what**.

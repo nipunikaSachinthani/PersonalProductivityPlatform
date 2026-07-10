@@ -22,3 +22,14 @@ Event-driven in-app notification center. Task completion and assignment trigger 
 - Notification bell shows unread count and dropdown list
 - Mark as read / mark all read working
 - 2 tests passing (event handler + background job)
+
+
+---
+
+## Git Workflow
+
+Every task in this phase MUST follow `GIT_WORKFLOW.md` for branch naming, commit format, and PR standards. Before starting any task:
+- Read `GIT_WORKFLOW.md` in full
+- Create branches per §3 (Branch Naming Conventions)
+- Write commits per §5 (Conventional Commits)
+- Open PRs per §6 (Pull Request Standards)

@@ -7,9 +7,10 @@ the adapted governance files as context. Output goes to `prompts/tasks/`.
 
 ## Input Files (load these before generating)
 
-1. `productivity_platform_roadmap_2001c371.plan.md` — the 12-phase roadmap
-2. `ARCHITECTURE_ANALYSIS.md` — technology stack and conventions
-3. `ENGINEERING_MATURITY.md` — current and target maturity levels
+1. `GIT_WORKFLOW.md` — universal Git workflow standard (branch naming, commits, PRs, merge strategy) — **MANDATORY**
+2. `productivity_platform_roadmap_2001c371.plan.md` — the 12-phase roadmap
+3. `ARCHITECTURE_ANALYSIS.md` — technology stack and conventions
+4. `ENGINEERING_MATURITY.md` — current and target maturity levels
 
 ---
 
@@ -66,8 +67,10 @@ Every task prompt file must follow this exact structure:
 ```markdown
 # Task Prompt — {TASK_ID}
 
-> Read prerequisites first: the project roadmap, AAOS.md, PRINCIPLES.md,
-> ARCHITECTURE_ANALYSIS.md, and ENGINEERING_MATURITY.md.
+> Read prerequisites first: GIT_WORKFLOW.md, the project roadmap, AAOS.md,
+> PRINCIPLES.md, ARCHITECTURE_ANALYSIS.md, and ENGINEERING_MATURITY.md.
+> GIT_WORKFLOW.md defines the binding Git workflow for ALL branches, commits,
+> and PRs — follow it precisely.
 
 ---
 
@@ -105,6 +108,7 @@ into the phase, what concepts it teaches}
 
 Before implementing, confirm:
 - [ ] Dependencies are complete (listed above)
+- [ ] Read GIT_WORKFLOW.md (branch naming, commit format, PR standards — binding)
 - [ ] Read the project roadmap plan file
 - [ ] Read AAOS.md (governance boundaries, quality gates, escalation rules)
 - [ ] Read PRINCIPLES.md (operational cheat-sheet)
@@ -156,9 +160,9 @@ Before implementing, confirm:
 
 ## 7. Deliverables
 
-1. **Branch:** `feature/PPP-NNN-{short-slug}` off `main`
-2. **Commits:** Conventional format — `feat({module}): {description}`
-3. **PR:** Description with what was done, how tested, and a test plan
+1. **Branch:** `feature/PPP-NNN-{short-slug}` off `main` (see GIT_WORKFLOW.md §3 for full naming conventions)
+2. **Commits:** Conventional format — `feat({module}): {description}` (see GIT_WORKFLOW.md §5 for commit standards and trailers)
+3. **PR:** Description with what was done, how tested, and a test plan (see GIT_WORKFLOW.md §6 for PR standards)
 4. **Tests:** At minimum, the light tests specified in the ACs
 
 ---

@@ -71,11 +71,12 @@
 
 Before implementing any task, read:
 
-1. `productivity_platform_roadmap_2001c371.plan.md` — the 12-phase roadmap
-2. `AAOS.md` — governance boundaries, quality gates, escalation rules
-3. `PRINCIPLES.md` — operational cheat-sheet (AAOS §2 applied daily)
-4. `ARCHITECTURE_ANALYSIS.md` — technology stack, conventions, patterns
-5. `ENGINEERING_MATURITY.md` — current and target maturity levels
+1. `GIT_WORKFLOW.md` — universal Git workflow standard (branch naming, commits, PRs, merge strategy) — **mandatory for every task**
+2. `productivity_platform_roadmap_2001c371.plan.md` — the 12-phase roadmap
+3. `AAOS.md` — governance boundaries, quality gates, escalation rules
+4. `PRINCIPLES.md` — operational cheat-sheet (AAOS §2 applied daily)
+5. `ARCHITECTURE_ANALYSIS.md` — technology stack, conventions, patterns
+6. `ENGINEERING_MATURITY.md` — current and target maturity levels
 
 ---
 

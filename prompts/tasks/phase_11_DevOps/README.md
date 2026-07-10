@@ -17,3 +17,14 @@ Automated CI/CD pipeline. On every push/PR: build .NET + React, run linters, run
 - GitHub Secrets configured for connection strings and JWT key
 - Dev environment functional on Azure
 - Deployment health check passes
+
+
+---
+
+## Git Workflow
+
+Every task in this phase MUST follow `GIT_WORKFLOW.md` for branch naming, commit format, and PR standards. Before starting any task:
+- Read `GIT_WORKFLOW.md` in full
+- Create branches per §3 (Branch Naming Conventions)
+- Write commits per §5 (Conventional Commits)
+- Open PRs per §6 (Pull Request Standards)

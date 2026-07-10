@@ -654,15 +654,16 @@ Context is the difference between correct and confident-but-wrong. The Context A
 ### 7.1 Context Hierarchy (highest authority first)
 
 1. **AAOS** (this document).
-2. **Security Governance Standard** (Section 6).
-3. **Repository-level constitution** — `CLAUDE.md` / `AGENTS.md` at repo root.
-4. **Service-level architecture** — `ARCHITECTURE.md`, ADRs in `docs/adr/`.
-5. **Module/Domain README** in the affected directory.
-6. **API contracts** — OpenAPI / schema definitions.
-7. **Code in the repository** (canonical, since it is what actually runs).
-8. **Plan file** for the current work.
-9. **Issue body / Notion ticket** for the current work.
-10. **Engineer prompt** that initiated the session.
+2. **Git Workflow Standard** — `GIT_WORKFLOW.md` at repo root. Mandatory for all Git operations: branch naming, commits, PRs, merge strategy.
+3. **Security Governance Standard** (Section 6).
+4. **Repository-level constitution** — `CLAUDE.md` / `AGENTS.md` at repo root.
+5. **Service-level architecture** — `ARCHITECTURE.md`, ADRs in `docs/adr/`.
+6. **Module/Domain README** in the affected directory.
+7. **API contracts** — OpenAPI / schema definitions.
+8. **Code in the repository** (canonical, since it is what actually runs).
+9. **Plan file** for the current work.
+10. **Issue body / Notion ticket** for the current work.
+11. **Engineer prompt** that initiated the session.
 
 When two sources conflict, the higher source wins **unless** Section 7.4 conflict resolution overrides.
 
@@ -1086,6 +1087,15 @@ REQUEST_CHANGES — fix finding #1 and add the missing negative test.
 
 ## 11. GitHub Operational Model
 
+> **Constitutional governance.** This section defines the binding rules for all Git operations.
+> **Operational detail** for branch naming, commit format, PR templates, merge strategies,
+> release processes, and troubleshooting lives in `GIT_WORKFLOW.md` (the Git Workflow
+> Standard). Every agent MUST read `GIT_WORKFLOW.md` alongside this section.
+>
+> Where this section conflicts with `GIT_WORKFLOW.md`, **this section wins** (AAOS is the
+> constitution). Where this section is silent and `GIT_WORKFLOW.md` provides guidance,
+> `GIT_WORKFLOW.md` is binding.
+
 GitHub is the source of truth. Anything not in Git did not happen.
 
 ### 11.1 Repository Structure
@@ -1117,13 +1127,14 @@ Each service repo contains:
 ├── SECURITY.md
 ├── CONTRIBUTING.md
 ├── CHANGELOG.md
-├── CLAUDE.md                  ← repo-level agent constitution; defers to AAOS
+├── GIT_WORKFLOW.md              ← repository-local Git workflow (optional override)
+├── CLAUDE.md                    ← repo-level agent constitution; defers to AAOS
 ├── docs/
 │   ├── adr/
-│   └── api/                   ← generated OpenAPI
+│   └── api/                     ← generated OpenAPI
 ├── src/
 ├── tests/
-├── migrations/                ← Flyway
+├── migrations/                  ← Flyway
 ├── ops/
 │   ├── helm/
 │   └── argo/
@@ -1133,73 +1144,113 @@ Each service repo contains:
     └── PULL_REQUEST_TEMPLATE.md
 ```
 
-### 11.2 Branching Strategy
+### 11.2 Branching Governance
 
-- `main` — protected; always deployable; only fast-forward via merge queue.
-- `release/<version>` — cut from `main` for release stabilization; backports only.
-- `feature/<short>-<task-id>` — short-lived (≤ 3 days).
-- `fix/<short>-<issue-id>` — bug fixes.
-- `chore/<short>` — non-functional changes.
-- `agent/<plan-id>-<step>` — agent-authored branches; auto-deleted on merge.
+**Constitutional rules (AAOS level):**
 
-### 11.3 PR Standards
+- `main` is protected, always deployable. Only PR-based merges enter `main`.
+- All branches are short-lived (≤ 3 days for feature/fix branches; ≤ 24 hours for hotfixes).
+- No force-push to `main`, `release/*`, or any protected branch.
+- No direct commits to `main`. Zero exceptions.
 
-- Conventional Commits in PR title.
-- Mandatory PR template (Appendix B).
-- Maximum diff: 800 LOC. Larger PRs must be split.
-- Maximum files: 25. Larger PRs must be split unless mass-rename, then explicit label `mass-rename`.
+**Operational detail** (branch naming patterns, lifecycle state machine, creation rules):
+→ See `GIT_WORKFLOW.md §3 (Branch Naming Conventions)` and `§4 (Branch Lifecycle & Strategy)`.
+
+### 11.3 PR Governance
+
+**Constitutional rules (AAOS level):**
+
+- Every PR MUST use the mandatory PR template (Appendix B of this document).
+- PR title MUST be a valid Conventional Commit: `type(scope): description`.
+- Maximum diff: 800 LOC; maximum files: 25. Larger PRs must be split (label `mass-rename` exception).
 - Single concern per PR. No drive-by fixes.
-- Linked issue or plan reference mandatory.
-- Risk class label mandatory (R0–R4).
-- Agent-authored PRs labeled `agent-authored`.
+- Every PR MUST be linked to an issue, task, or plan.
+- Risk class label (`R0`–`R4`) is mandatory on every PR.
+- Agent-authored PRs MUST carry the `agent-authored` label.
 
-### 11.4 Commit Standards
+**Operational detail** (PR creation process, labels, checklist, reviewer requirements per risk class):
+→ See `GIT_WORKFLOW.md §6 (Pull Request Standards)` and `§7 (Code Review Process)`.
 
-- Conventional Commits format: `<type>(<scope>): <subject>`.
-- Types: `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `perf`, `build`, `ci`, `security`.
-- Body: explains *why*; references plan and issue.
-- Trailers: `Co-Authored-By: <agent> <noreply@...>`, `Plan: .omc/plans/<id>.md`, `Refs: #<issue>`.
-- Signed commits required on protected repos (GPG or sigstore).
+### 11.4 Commit Governance
+
+**Constitutional rules (AAOS level):**
+
+- All commits MUST follow Conventional Commits format: `<type>(<scope>): <subject>`.
+- Allowed types: `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `perf`, `build`, `ci`, `security`.
+- Commit body explains *why*, never *what*.
+- Agent-authored commits MUST include `Co-Authored-By:`, `Plan:`, and `Refs:` trailers.
+- Signed commits (GPG or Sigstore) required on protected repositories.
+
+**Operational detail** (full format specification, scope conventions, body guidelines, trailers, prohibited patterns):
+→ See `GIT_WORKFLOW.md §5 (Commit Standards — Conventional Commits)`.
 
 ### 11.5 Issue Linking
 
 - Every PR closes or refs an issue or Notion ticket.
 - Issue templates: `bug`, `feature`, `task`, `incident`, `security`, `chore`.
 - Issues carry: `risk:R<n>`, `area:<service>`, `priority:<P0-P3>`, `state:<triage|ready|in-progress|blocked|done>`.
+- Every issue linked to a PR MUST be referenced in both the PR description and the squashed commit body.
 
-### 11.6 Review Process
+### 11.6 Review Governance
 
-- Minimum 1 human reviewer + 1 reviewer agent on R1.
-- Minimum 1 human reviewer + 1 reviewer agent + 1 security agent on R2.
-- Minimum 2 human reviewers + reviewer agent + security agent + architect on R3.
-- Minimum 2 human reviewers + architect + security officer + compliance reviewer on R4.
-- Reviewer agents may **not** approve PRs from the same dispatch lineage as the author.
+**Constitutional rules (AAOS level):**
 
-### 11.7 Merge Requirements
+| Risk Class | Human Reviewers | Agent Reviewers | Security Review | Architectural Review |
+|---|---|---|---|---|
+| R0 — Trivial | 0–1 | Optional | Not required | Not required |
+| R1 — Routine | 1 | 1 | Not required | Not required |
+| R2 — Scoped | 1 | 1 | Required | Not required |
+| R3 — Cross-cutting | 2 | 1 | Required | Required |
+| R4 — Critical | 2 | 1 | Required + Security Officer | Required + Architect |
 
-- All required checks green.
-- Required approvals satisfied.
-- Branch up-to-date with base.
-- No unresolved review threads.
-- No `do-not-merge` label.
-- Merge method: **squash-and-merge** for feature branches; **merge commit** for release branches; **rebase** forbidden on shared branches.
-- Release promotion branches **must not be squash-merged to `main`**. Use a true merge commit or fast-forward so `main` remains an ancestor of the next release branch and `dev` does not diverge under equivalent tree content.
-- Auto-merge: enabled only for `chore(deps): patch upgrade` PRs from Renovate that have full green status.
+**Additional rules:**
+- Reviewer agents must be from a **different dispatch lineage** than the executor (AAOS §3.4).
+- No agent may approve its own PR.
+- A `REQUEST_CHANGES` verdict must cite the specific rule or principle violated.
+- CI must be green before human review begins.
 
-### 11.8 Release Workflow
+**Operational detail** (review expectations, review tiers, verdicts, reviewer independence):
+→ See `GIT_WORKFLOW.md §7 (Code Review Process)`.
 
-```
-1. Cut release/<vN.M.0> from main
-2. Run full eval + redteam + perf suite
-3. Smoke deploy to staging
-4. 24h soak on staging
-5. CHANGELOG.md updated; release notes drafted by reporter agent
-6. Production deploy via Argo with progressive rollout (10% → 50% → 100%)
-7. Post-deploy verification by validator agent
-8. Tag release; sign artifact; publish SBOM
-```
+### 11.7 Merge Governance
+
+**Constitutional rules (AAOS level):**
+
+- Merge method **by branch type**:
+  - `feature/*`, `fix/*`, `chore/*`, `refactor/*`, `docs/*`, `test/*`, `security/*`, `agent/*` → **squash-and-merge**
+  - `release/*` → **merge commit** (preserve topology)
+  - `hotfix/*` → **merge commit** (preserve context for cherry-pick)
+  - `main` → **fast-forward or merge commit** forward-port into release branches
+- Release promotion branches **must not** be squash-merged to `main`.
+- Auto-merge: enabled only for `chore(deps): patch upgrade` PRs with full green status.
+- No merge to `main` unless:
+  - All required checks green.
+  - Required approvals satisfied.
+  - Branch up-to-date with base.
+  - No unresolved review threads.
+  - No `do-not-merge` label.
+
+**Operational detail** (merge commit format, prohibited merge operations, troubleshooting):
+→ See `GIT_WORKFLOW.md §8 (Merge Strategies)` and `§12 (Troubleshooting & Recovery)`.
+
+### 11.8 Release Governance
+
+**Constitutional rules (AAOS level):**
+
+Release workflow is strictly sequenced:
+
+1. Cut `release/<vN.M.0>` from `main`.
+2. Run full validation suite (eval, redteam, perf).
+3. Smoke deploy to staging; 24h soak.
+4. `CHANGELOG.md` updated; release notes drafted.
+5. Production deploy via progressive rollout (10% → 50% → 100%).
+6. Post-deploy verification.
+7. Tag release; sign artifact; publish SBOM.
 
 Rollback: revert via Argo to previous tag; no manual `kubectl` operations.
+
+**Operational detail** (versioning, changelog format, hotfix process, release promotion history invariant):
+→ See `GIT_WORKFLOW.md §9 (Release Workflow)`.
 
 #### Release Promotion History Invariant
 
@@ -1224,6 +1275,30 @@ This closes the failure mode tracked in #578: content-equivalent but history-div
 - Require up-to-date branches.
 - Restrict who can push (admins only, never agents).
 - Restrict force-push (off, always).
+
+### 11.10 Git Hygiene Standards
+
+**Constitutional rules:**
+- `.gitignore` and `.editorconfig` are mandatory at every repository root.
+- All commits must be signed (GPG or Sigstore) on protected branches.
+- Git configuration must identify the author unambiguously (human name or agent-type + agent-id).
+
+**Operational detail** (`.gitignore` template, `.editorconfig` specification, Git hooks, configuration commands):
+→ See `GIT_WORKFLOW.md §11 (Git Configuration & Hygiene)`.
+
+---
+
+#### Section 11 Quick Reference
+
+| Question | Answer |
+|---|---|
+| What branch pattern do I use? | See `GIT_WORKFLOW.md §3` |
+| How do I format my commit? | See `GIT_WORKFLOW.md §5` |
+| What goes in a PR? | See `GIT_WORKFLOW.md §6` + Appendix B |
+| How do I merge? | See `GIT_WORKFLOW.md §8` |
+| How do I release? | See `GIT_WORKFLOW.md §9` |
+| My branch is behind main | `git fetch origin && git rebase origin/main` |
+| I need to undo a merge | `git revert <sha>` (never reset) |
 
 ---
 

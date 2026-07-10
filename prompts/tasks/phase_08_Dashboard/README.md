@@ -20,3 +20,14 @@ Productivity analytics dashboard showing completed tasks this week, overdue coun
 - Recharts bar chart (status breakdown) and line chart (completions over time)
 - Date range selector (7d/30d/90d) driving chart data
 - 1 integration test passing (seeded data → correct counts)
+
+
+---
+
+## Git Workflow
+
+Every task in this phase MUST follow `GIT_WORKFLOW.md` for branch naming, commit format, and PR standards. Before starting any task:
+- Read `GIT_WORKFLOW.md` in full
+- Create branches per §3 (Branch Naming Conventions)
+- Write commits per §5 (Conventional Commits)
+- Open PRs per §6 (Pull Request Standards)

@@ -3,6 +3,7 @@
 **Audience:** AI coding agent (build + run)
 **Status:** Ready to build after Phase 03 (Tasks module) is complete
 **Tracker:** Create a GitHub issue for this spec when the repo is initialized
+**Git Workflow:** All branches, commits, and PRs for this spec MUST follow `GIT_WORKFLOW.md`
 
 This is a **buildable, runnable spec** for an automated QA test suite that exercises
 the deployed Personal Productivity Platform end to end — auth, CRUD, authorization,
@@ -137,7 +138,8 @@ Smoke each operation with a valid token:
 - [ ] `tests/qa-e2e.py` exists and runs against the target environment.
 - [ ] All §3 checks implemented; §2 known failures encoded as XFAIL.
 - [ ] First run executed; report posted with current pass/fail snapshot.
-- [ ] Conventional commit: `test(qa): add end-to-end QA automation suite`
+- [ ] Conventional commit: `test(qa): add end-to-end QA automation suite` (per GIT_WORKFLOW.md §5)
+- [ ] Branch named per GIT_WORKFLOW.md §3: e.g., `feature/qa-automation-suite-PPP-100`
 
 ---
 

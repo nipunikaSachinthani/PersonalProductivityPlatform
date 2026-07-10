@@ -20,3 +20,14 @@ Visual calendar showing task due dates and standalone events, with drag-to-resch
 - Drag-to-reschedule updating task due dates via API
 - Calendar event CRUD functional
 - 2 tests passing (date-range query unit + integration)
+
+
+---
+
+## Git Workflow
+
+Every task in this phase MUST follow `GIT_WORKFLOW.md` for branch naming, commit format, and PR standards. Before starting any task:
+- Read `GIT_WORKFLOW.md` in full
+- Create branches per §3 (Branch Naming Conventions)
+- Write commits per §5 (Conventional Commits)
+- Open PRs per §6 (Pull Request Standards)
